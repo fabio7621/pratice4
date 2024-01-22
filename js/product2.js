@@ -81,18 +81,30 @@ const app = Vue.createApp({
           alert(err.res.data.message);
         });
     },
+  },
+});
+app.component("producthere", {
+  data() {
+    return {
+      apiUrl: "https://vue3-course-api.hexschool.io/v2",
+      apiPath: "fabio20",
+    };
+  },
+  props: ["product", "isNew"],
+  template: "#productModal",
+  methods: {
     updateProduct() {
       const url = this.isNew
         ? `${this.apiUrl}/api/${this.apiPath}/admin/product`
-        : `${this.apiUrl}/api/${this.apiPath}/admin/product/${this.catchProduct.id}`;
+        : `${this.apiUrl}/api/${this.apiPath}/admin/product/${this.product.id}`;
 
       const httpMethod = this.isNew ? "post" : "put";
 
-      axios[httpMethod](url, { data: this.catchProduct })
+      axios[httpMethod](url, { data: this.product })
         .then((res) => {
           alert(res.data.message);
           productModal.hide();
-          this.getData();
+          this.$emit("update");
         })
         .catch((error) => {
           alert(error.res.data.message);
@@ -100,14 +112,9 @@ const app = Vue.createApp({
     },
     newImages() {
       //把心照片推進去
-      this.tempProduct.imagesUrl = [];
-      this.tempProduct.imagesUrl.push("");
+      this.product.imagesUrl = [];
+      this.product.imagesUrl.push("");
     },
   },
-});
-app.component("card", {
-  template: `<button @click="openModal('new')" class="btn btn-primary">
-  建立新的產品
-</button>`,
 });
 app.mount("#app");
