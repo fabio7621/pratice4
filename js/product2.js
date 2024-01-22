@@ -129,4 +129,7 @@ app.component("delhere", {
     },
   },
 });
+app.component("pagination", {
+  template: "#pagination",
+});
 app.mount("#app");
