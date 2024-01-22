@@ -70,49 +70,10 @@
         @update="getData"
       ></producthere>
       <!-- 刪除跳窗 -->
-      <div
-        id="delProductModal"
-        ref="delProductModal"
-        class="modal fade"
-        tabindex="-1"
-        aria-labelledby="delProductModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content border-0">
-            <div class="modal-header bg-danger text-white">
-              <h5 id="delProductModalLabel" class="modal-title">
-                <span>刪除產品</span>
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              是否刪除
-              <strong class="text-danger">{{ catchProduct.title }}</strong>
-              商品(刪除後將無法恢復)。
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-outline-secondary"
-                data-bs-dismiss="modal"
-              >
-                取消
-              </button>
-              <button @click="delProduct" type="button" class="btn btn-danger">
-                確認刪除
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <delhere :item="catchProduct" @update="getData"></delhere>
       <!-- Modal -->
     </div>
+    <!-- 新增編輯 -->
     <script type="text/x-template" id="productModal">
         <div id="productModal" ref="modal" class="modal fade" tabindex="-1" aria-labelledby="productModalLabel"
         aria-hidden="true">
@@ -227,6 +188,55 @@
         </div>
       </div>
     </script>
+    <!-- 刪除 -->
+    <script type="text/x-template" id="delProductModal">
+        <div id="delProductModal" ref="modal" class="modal fade" tabindex="-1" aria-labelledby="delProductModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content border-0">
+            <div class="modal-header bg-danger text-white">
+              <h5 id="delProductModalLabel" class="modal-title">
+                <span>刪除產品</span>
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              是否刪除
+              <strong class="text-danger">{{ item.title }}</strong> 商品(刪除後將無法恢復)。
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                取消
+              </button>
+              <button type="button" class="btn btn-danger" @click="delProduct">
+                確認刪除
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </script>
+    <!-- 分頁 -->
+    <script type="text/x-template" id="pagination">
+      <nav id="pagination" aria-label="Page navigation example">
+        <ul  class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script>
     <script type="module" src="./js/product2.js"></script>
     <script

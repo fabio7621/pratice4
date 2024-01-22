@@ -15,10 +15,6 @@ const app = Vue.createApp({
   mounted() {
     productModal = new bootstrap.Modal(document.getElementById("productModal"));
 
-    delProductModal = new bootstrap.Modal(
-      document.getElementById("delProductModal")
-    );
-
     const token = document.cookie.replace(
       /(?:(?:^|.*;\s*)fabio20token\s*=\s*([^;]*).*$)|^.*$/,
       "$1"
@@ -67,20 +63,6 @@ const app = Vue.createApp({
         delProductModal.show();
       }
     },
-    delProduct() {
-      const url = `${this.apiUrl}/api/${this.apiPath}/admin/product/${this.catchProduct.id}`;
-      ///這邊因為catchProduct.id直接提取id即可
-      axios
-        .delete(url)
-        .then((res) => {
-          alert(res.data.message);
-          delProductModal.hide();
-          this.getData();
-        })
-        .catch((err) => {
-          alert(err.res.data.message);
-        });
-    },
   },
 });
 app.component("producthere", {
@@ -111,9 +93,39 @@ app.component("producthere", {
         });
     },
     newImages() {
-      //把心照片推進去
+      //把新照片推進去
       this.product.imagesUrl = [];
       this.product.imagesUrl.push("");
+    },
+  },
+});
+app.component("delhere", {
+  template: "#delProductModal",
+  props: ["item"],
+  data() {
+    return {
+      apiUrl: "https://vue3-course-api.hexschool.io/v2",
+      apiPath: "fabio20",
+    };
+  },
+  mounted() {
+    delProductModal = new bootstrap.Modal(
+      document.getElementById("delProductModal")
+    );
+  },
+  methods: {
+    delProduct() {
+      axios
+        .delete(
+          `${this.apiUrl}/api/${this.apiPath}/admin/product/${this.item.id}`
+        )
+        .then((response) => {
+          delProductModal.hide();
+          this.$emit("update");
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+        });
     },
   },
 });
