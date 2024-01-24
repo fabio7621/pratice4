@@ -10,6 +10,7 @@ const app = Vue.createApp({
         imagesUrl: [],
       },
       isNew: false,
+      pagination: {},
     };
   },
   mounted() {
@@ -35,11 +36,13 @@ const app = Vue.createApp({
           window.location = "login.html";
         });
     },
-    getData() {
+    getData(page = 1) {
       axios
-        .get(`${this.apiUrl}/api/${this.apiPath}/admin/products`)
+        .get(`${this.apiUrl}/api/${this.apiPath}/admin/products?page=${page}`)
         .then((res) => {
-          this.products = res.data.products;
+          const { products, pagination } = res.data;
+          this.products = products;
+          this.pagination = pagination;
         })
         .catch((err) => {
           alert("找不到資訊");
@@ -131,5 +134,12 @@ app.component("delhere", {
 });
 app.component("pagination", {
   template: "#pagination",
+  props: ["pages"],
+  methods: {
+    emitPages(item) {
+      this.$emit("emit-pages", item);
+    },
+  },
 });
+
 app.mount("#app");
